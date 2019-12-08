@@ -60,34 +60,78 @@ int partition(int arr[], int awal, int akhir){
 			arr[index] = temp;
 			index++;
 		}
-//		printf("\nProses Partisi\n");
-//		for	(int i=0;i<8;i++){
-//			printf("%d ", arr[i]);
-//		}
+		printf("\nProses Partisi\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%d ", arr[i]);
+		}
 	}
 	temp = arr[index];
 	arr[index] = arr[akhir];
 	arr[akhir] = temp;
-//	printf("\nHasil Partisi\n");
-//	for	(int i=0;i<8;i++){
-//		printf("%d ", arr[i]);
-//	}
+	printf("\nHasil Partisi\n");
+	for	(int i=0;i<=akhir;i++){
+		printf("%d ", arr[i]);
+	}
 	return index;
 }
 
 void quick(int arr[], int awal, int akhir){
 	if (awal < akhir){
 		int index = partition(arr, awal, akhir);
-//		printf("\nProses Quick Kiri\n");
-//		for	(int i=0;i<8;i++){
-//			printf("%d ", arr[i]);
-//		}
+		printf("\nProses Quick Kiri\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%d ", arr[i]);
+		}
 		quick(arr, awal, (index-1));
-//		printf("\nProses Quick Kanan\n");
-//		for	(int i=0;i<8;i++){
-//			printf("%d ", arr[i]);
-//		}
+		printf("\nProses Quick Kanan\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%d ", arr[i]);
+		}
 		quick(arr, (index+1), akhir);
+	}
+}
+
+int strpartition(char arr[][100], int awal, int akhir){
+	char pivot[100][100];
+	strcpy(pivot[0],arr[akhir]);
+	int index = awal;
+	char temp[100][100];
+	
+	for (int i=awal; i<=(akhir-1); i++){
+		if (strcmp(arr[i],pivot[0])<0){
+			strcpy(temp[0], arr[i]);
+			strcpy(arr[i], arr[index]);
+			strcpy(arr[index], temp[0]);
+			index++;
+		}
+		printf("\nProses Partisi\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%s ", arr[i]);
+		}
+	}
+	strcpy(temp[0], arr[index]); 
+	strcpy(arr[index], arr[akhir]);
+	strcpy(arr[akhir], temp[0]);
+	printf("\nHasil Partisi\n");
+	for	(int i=0;i<=akhir;i++){
+		printf("%s ", arr[i]);
+	}
+	return index;
+}
+
+void strquick(char arr[][100], int awal, int akhir){
+	if (awal < akhir){
+		int index = strpartition(arr, awal, akhir);
+		printf("\nProses Quick Kiri\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%s ", arr[i]);
+		}
+		strquick(arr, awal, (index-1));
+		printf("\nProses Quick Kanan\n");
+		for	(int i=0;i<=akhir;i++){
+			printf("%s ", arr[i]);
+		}
+		strquick(arr, (index+1), akhir);
 	}
 }
 
@@ -233,7 +277,8 @@ int main(){
 			}
 				break;
 			case 5:{//sorting
-				int temp[n];
+				char temp[100][100];
+				int tempid[n];
 				char tempnama[10];
 				char temppenyakit[15];
 				char tempkamar[5];
@@ -248,18 +293,25 @@ int main(){
 				printf("5. No. Kamar\n");
 				printf("6. Tanggal\n");
 				printf("7. Bulan\n");
-				printf("Pilih : ");
-				scanf("%d",&menu1);
+				printf("Pilih : ");scanf("%d",&menu1);fflush(stdin);
 				switch(menu1){
 					case 1:
 						for (int i=0; i<=n; i++){
-							temp[i] = dt[i].id;
+							tempid[i] = dt[i].id;
 						}
-						quick(temp, 0, n);
+						for	(int i=0;i<n;i++){
+							printf("%d ", tempid[i]);
+						}
+						printf("\n%d", n);
+						getch();
+						quick(tempid, 0, (n-1));
+						for	(int i=0;i<n;i++){
+							printf("%d ", tempid[i]);
+						}
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
-								if (temp[i]==dt[j].id){
-									temp[i] = dt[i].id;
+								if (tempid[i]==dt[j].id){
+									tempid[i] = dt[i].id;
 									strcpy(tempnama, dt[i].nama);
 									strcpy(temppenyakit, dt[i].penyakit);
 									strcpy(tempkamar, dt[i].kamar);
@@ -275,7 +327,7 @@ int main(){
 									dt[i].tl.tanggal = dt[j].tl.tanggal;
 									dt[i].tl.bulan = dt[j].tl.bulan;
 								
-									dt[j].id = temp[i];
+									dt[j].id = tempid[i];
 									strcpy(dt[j].nama, tempnama);
 									strcpy(dt[j].penyakit, temppenyakit);
 									strcpy(dt[j].kamar, tempkamar);
@@ -285,23 +337,131 @@ int main(){
 								}
 							}
 						}
+						getch();
 						system("cls");
 						printf("Data Berhasil Diurutkan !!!");
 						getch();
 						system("cls");
-
 						break;
-					case 2:{ //nama
-//						for (int i=0; i<=n; i++){
-//							strcpy(tempnama[i],dt[i].nama);
-//						}
-//						quick(dt,0,n);
-//						printf("%s\t",dt.nama);
+					case 2: //nama
+						for (int i=0; i<=n; i++){
+							strcpy(temp[i], dt[i].nama);
+						}
+						strquick(temp, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (strcmp(temp[i], dt[j].nama)==0){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
+						getch();
+						system("cls");
+						printf("Data Berhasil Diurutkan !!!");
+						getch();
+						system("cls");
 						break;
-					}
 					case 3:  //penyakit
+						for (int i=0; i<=n; i++){
+							strcpy(temp[i], dt[i].penyakit);
+						}
+						strquick(temp, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (strcmp(temp[i], dt[j].penyakit)==0){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
+						getch();
+						system("cls");
+						printf("Data Berhasil Diurutkan !!!");
+						getch();
+						system("cls");
 						break;
 					case 4: //kamar
+						for (int i=0; i<=n; i++){
+							strcpy(temp[i], dt[i].kamar);
+						}
+						strquick(temp, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (strcmp(temp[i], dt[j].nama)==0){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
+						getch();
+						system("cls");
+						printf("Data Berhasil Diurutkan !!!");
+						getch();
+						system("cls");
 						break;
 					case 5://No.Kamar
 						for (int i=0; i<=n; i++){
@@ -311,7 +471,7 @@ int main(){
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempnomorkamar[i]==dt[j].nomorkamar){
-									temp[i] = dt[i].id;
+									tempid[i] = dt[i].id;
 									strcpy(tempnama, dt[i].nama);
 									strcpy(temppenyakit, dt[i].penyakit);
 									strcpy(tempkamar, dt[i].kamar);
@@ -328,7 +488,7 @@ int main(){
 									dt[i].tl.bulan = dt[j].tl.bulan;
 									dt[i].nomorkamar = dt[j].nomorkamar;
 								
-									dt[j].id = temp[i];
+									dt[j].id = tempid[i];
 									strcpy(dt[j].nama, tempnama);
 									strcpy(dt[j].penyakit, temppenyakit);
 									strcpy(dt[j].kamar, tempkamar);
@@ -352,7 +512,7 @@ int main(){
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (temptanggal[i]==dt[j].tl.tanggal){
-									temp[i] = dt[i].id;
+									tempid[i] = dt[i].id;
 									strcpy(tempnama, dt[i].nama);
 									strcpy(temppenyakit, dt[i].penyakit);
 									strcpy(tempkamar, dt[i].kamar);
@@ -368,7 +528,7 @@ int main(){
 									dt[i].tl.tanggal = dt[j].tl.bulan;
 									dt[i].tl.bulan = dt[j].tl.bulan;
 								
-									dt[j].id = temp[i];
+									dt[j].id = tempid[i];
 									strcpy(dt[j].nama, tempnama);
 									strcpy(dt[j].penyakit, temppenyakit);
 									strcpy(dt[j].kamar, tempkamar);
@@ -392,7 +552,7 @@ int main(){
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempbulan[i]==dt[j].tl.bulan){
-									temp[i] = dt[i].id;
+									tempid[i] = dt[i].id;
 									strcpy(tempnama, dt[i].nama);
 									strcpy(temppenyakit, dt[i].penyakit);
 									strcpy(tempkamar, dt[i].kamar);
@@ -408,7 +568,7 @@ int main(){
 									dt[i].tl.tanggal = dt[j].tl.tanggal;
 									dt[i].tl.bulan = dt[j].tl.bulan;
 									
-									dt[j].id = temp[i];
+									dt[j].id = tempid[i];
 									strcpy(dt[j].nama, tempnama);
 									strcpy(dt[j].penyakit, temppenyakit);
 									strcpy(dt[j].kamar, tempkamar);
