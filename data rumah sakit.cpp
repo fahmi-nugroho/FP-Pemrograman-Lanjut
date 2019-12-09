@@ -5,6 +5,20 @@
 #include <time.h>
 #include <math.h>
 
+struct ttl{
+	int tanggal;
+	int bulan;
+};
+struct data{
+	int id;
+	char nama[10];
+	char penyakit[15];
+	char kamar[5];
+	int nomorkamar;
+	struct ttl tl;
+};
+typedef struct data data;
+
 int jump(int arr[], int jumlah, int cari){
 	int m = sqrt(jumlah);
 	int indexatas = m;
@@ -29,6 +43,51 @@ int jump(int arr[], int jumlah, int cari){
 		else if (cari>arr[indexbawah]&&cari<arr[indexatas]){
 			for (int j=indexbawah; j<indexatas; j++){
 				if (cari==arr[j]){
+//					printf("\nData Ditemukan Di Index ke-%d", j);
+					index = j;
+				}
+			}
+			ketemu = 1;
+			break;
+		}
+		else{
+			indexbawah = indexatas;
+			indexatas = indexatas + m;
+		}
+	}
+	if (ketemu!=1){
+		printf("\nData Tidak Ditemukan !!!");
+		getch();
+	}
+	return index;
+}
+
+int strjump(char arr[][100], int jumlah, char data[][100]){
+	char cari[100][100];
+	strcpy(cari[0], data[0]);
+	int m = sqrt(jumlah);
+	int indexatas = m;
+	int indexbawah = 0;
+	int ketemu = 0;
+	int index = -1;
+//	printf("m=%d", m);
+	
+	for (int i=0; i<(jumlah/m); i++){
+		if (strcmp(cari[0], arr[indexbawah])==0){
+//			printf("\nData Ditemukan Di Index ke-%d", indexbawah);
+			ketemu = 1;
+			index = indexbawah;
+			break;
+		}
+		else if (strcmp(cari[0], arr[indexatas])==0){
+//			printf("\nData Ditemukan Di Index ke-%d", indexatas);
+			ketemu = 1;
+			index = indexatas;
+			break;
+		}
+		else if (strcmp(cari[0], arr[indexbawah])>0&&strcmp(cari[0], arr[indexatas])<0){
+			for (int j=indexbawah; j<indexatas; j++){
+				if (strcmp(cari[0], arr[j])==0){
 //					printf("\nData Ditemukan Di Index ke-%d", j);
 					index = j;
 				}
@@ -135,21 +194,6 @@ void strquick(char arr[][100], int awal, int akhir){
 	}
 }
 
-struct ttl{
-	int tanggal;
-	int bulan;
-};
-struct data{
-	int id;
-	char nama[10];
-	char penyakit[15];
-	char kamar[5];
-	int nomorkamar;
-	struct ttl tl;
-};
-typedef struct data data;
-
-
 int main(){
 	srand(time(0));
 	data dt[100];
@@ -166,7 +210,7 @@ int main(){
 		printf("Pilihan : ");
 		scanf("%d",&menu);
 		switch(menu){
-			case 1://input
+			case 1:{//input
 				dat=1;
 				dt[n].id = rand() &1001 + 11;
 				fflush(stdin);
@@ -188,7 +232,8 @@ int main(){
 				n++;
 				system("cls");
 				break;
-			case 2://history
+			}
+			case 2:{//history
 				if(dat==0){
 					system("cls");
 					printf("Data belum di inputkan\n");
@@ -213,88 +258,98 @@ int main(){
 					system("cls");
 				}
 				break;
+			}
 			case 3:{//search
 				int tempid[n], cari, index;
-				char tempnama[10];
-				printf("\nMasukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
-				index = jump(tempid, (n+1), cari);	
-				system("cls");
-				if (index!=-1){
-					printf("Data ke - %d",index+1);
-					printf("\n");
-					printf("ID Pasien\t: %d\n",dt[index].id);
-					printf("Nama Pasien\t: %s\n",dt[index].nama);
-					printf("Jenis Penyakit\t: %s\n",dt[index].penyakit);
-					printf("Jenis Kamar\t: %s\n",dt[index].kamar);
-					printf("Nomor Kamar\t: %d\n",dt[index].nomorkamar);
-					printf("Tanggal Masuk\t: %d\n",dt[index].tl.tanggal);
-					printf("Bulan Masuk\t: %d\n",dt[index].tl.bulan);
-					getch();
-				}
-				system("cls");
-				break;
-			}
-			case 4:{
-				int ketemu=0;
-				system("cls");
-				fflush(stdin);
+				char coba[100][100];
+				char caristr[100][100];
 				printf("List : \n");
 				printf("1. ID\n");
 				printf("2. Nama\n");
+				printf("3. Nomor Kamar\n");
 				printf("Pilih : ");scanf("%d",&menu1);fflush(stdin);
-				switch(menu1){
+				switch (menu1){
 					case 1:
-						printf("\nMasukkan NomorID yang ingin anda ubah : ");
-						scanf("%d",&ganti);
-						fflush(stdin);
-						for(i=0;i<n;i++){
-							if(dt[i].id==ganti){
-								ketemu = 1;
-								j=i;
-							}
+						for (int i=0; i<n; i++){
+							tempid[i] = dt[i].id;
 						}
+						printf("\nMasukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
+						index = jump(tempid, n, cari);	
+						system("cls");
+						if (index!=-1){
+							printf("Data ke - %d",index+1);
+							printf("\n");
+							printf("ID Pasien\t: %d\n",dt[index].id);
+							printf("Nama Pasien\t: %s\n",dt[index].nama);
+							printf("Jenis Penyakit\t: %s\n",dt[index].penyakit);
+							printf("Jenis Kamar\t: %s\n",dt[index].kamar);
+							printf("Nomor Kamar\t: %d\n",dt[index].nomorkamar);
+							printf("Tanggal Masuk\t: %d\n",dt[index].tl.tanggal);
+							printf("Bulan Masuk\t: %d\n",dt[index].tl.bulan);
+							getch();
+						}
+						system("cls");
 						break;
 					case 2:
-						printf("\nMasukkan Nama yang ingin anda ubah : ");
-						gets(cganti);
-						fflush(stdin);
-						for(i=0;i<n;i++){
-							if(strcmp(dt[i].nama, cganti)==0){
-								ketemu = 1;
-								j=i;
-							}
+						for (int i=0; i<=n; i++){
+							strcpy(coba[i], dt[i].nama);
 						}
+						fflush(stdin);
+						printf("\nMasukkan Nama Pasien Yang Ingin Dicari = ");gets(caristr[0]);
+						index = strjump(coba, n, caristr);
+						system("cls");
+						if (index!=-1){
+							printf("Data ke - %d",index+1);
+							printf("\n");
+							printf("ID Pasien\t: %d\n",dt[index].id);
+							printf("Nama Pasien\t: %s\n",dt[index].nama);
+							printf("Jenis Penyakit\t: %s\n",dt[index].penyakit);
+							printf("Jenis Kamar\t: %s\n",dt[index].kamar);
+							printf("Nomor Kamar\t: %d\n",dt[index].nomorkamar);
+							printf("Tanggal Masuk\t: %d\n",dt[index].tl.tanggal);
+							printf("Bulan Masuk\t: %d\n",dt[index].tl.bulan);
+							getch();
+						}
+						system("cls");
+						break;
+					case 3:
 						break;
 				}
-				if(ketemu==1){
-//					system("cls");
+				break;
+			}
+			case 4:{//ubah
+				int tempid[n], ganti, index;
+				for (int i=0; i<n; i++){
+					tempid[i] = dt[i].id;
+				}
+				system("cls");
+				fflush(stdin);
+				printf("\nMasukkan NomorID yang ingin anda ubah : ");
+				scanf("%d",& ganti);
+				fflush(stdin);
+				index = jump(tempid, n, ganti);
+				if(index!=-1){
 					printf("Masukkan data baru\n");
 					printf("Nama Pasien\t\t: ");
-					gets(dt[j].nama);
+					gets(dt[index].nama);
 					printf("Jenis Penyakit\t\t: ");
-					gets(dt[j].penyakit);
+					gets(dt[index].penyakit);
 					printf("Jenis Kamar\t\t: ");
-					gets(dt[j].kamar);
+					gets(dt[index].kamar);
 					printf("Nomor Kamar\t\t: ");
-					scanf("%d",& dt[j].nomorkamar);
+					scanf("%d",& dt[index].nomorkamar);
 					fflush(stdin);
 					printf("Tanggal masuk\t\t: ");
-					scanf("%d",&dt[j].tl.tanggal);
+					scanf("%d",&dt[index].tl.tanggal);
 					printf("Bulan masuk\t\t: ");
-					scanf("%d",&dt[j].tl.bulan);
-				}
-				else if (ketemu==0){
+					scanf("%d",&dt[index].tl.bulan);
 					system("cls");
-					printf("ID Yang Dimasukkan Tidak Ditemukan !!!");
+					printf("Data Berhasil Diupdate !!!");
 					getch();
-					system("cls");
 				}
 				system("cls");
-				printf("Data Berhasil Diupdate !!!");
-				getch();
-				system("cls");
-			}
 				break;
+			}
 			case 5:{//sorting
 				char temp[100][100];
 				int tempid[n];
