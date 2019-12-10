@@ -377,8 +377,8 @@ int main(){
 				break;
 			}
 			case 3:{//search
-				int tempid[n],tempnomorkamar[n], cari, index;
-				char coba[100][100];
+				int tempid[n], tempid2[n],tempnomorkamar[n], tempnomorkamar2[n], cari, index;
+				char coba[100][100], coba2[100][100];
 				char caristr[100][100];
 				system("cls");
 				border();
@@ -392,8 +392,12 @@ int main(){
 						for (int i=0; i<=n; i++){
 							tempid[i] = dt[i].id;
 						}
+						for (int i=0; i<=n; i++){
+							tempid2[i] = dt[i].id;
+						}
 						gotoXY(26,12);printf("Masukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
 						quick(tempid, 0, (n-1));
+						urutdata(n, dt, tempid, tempid2);
 						index = jump(tempid, n, cari);	
 						system("cls");
 //						if (index!=-1){
@@ -415,9 +419,13 @@ int main(){
 						for (int i=0; i<=n; i++){
 							strcpy(coba[i], dt[i].nama);
 						}
+						for (int i=0; i<=n; i++){
+							strcpy(coba2[i], dt[i].nama);
+						}
 						fflush(stdin);
 						gotoXY(26,12);printf("Masukkan Nama Pasien Yang Ingin Dicari = ");gets(caristr[0]);
 						strquick(coba, 0, (n-1));
+						strurutdata(n, dt, coba, coba2);
 						index = strjump(coba, n, caristr);
 						system("cls");
 //						if (index!=-1){
@@ -438,8 +446,12 @@ int main(){
 						for (int i=0; i<n; i++){
 							tempnomorkamar[i] = dt[i].nomorkamar;
 						}
+						for (int i=0; i<=n; i++){
+							tempnomorkamar2[i] = dt[i].nomorkamar;
+						}
 						gotoXY(26,12);printf("Masukkan No Kamar Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
 						quick(tempnomorkamar, 0, (n-1));
+						urutdata(n, dt, tempnomorkamar, tempnomorkamar2);
 						index = jump(tempnomorkamar, n, cari);	
 						system("cls");
 //						if (index!=-1){
