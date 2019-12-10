@@ -393,6 +393,7 @@ int main(){
 							tempid[i] = dt[i].id;
 						}
 						gotoXY(26,12);printf("Masukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
+						quick(tempid, 0, (n-1));
 						index = jump(tempid, n, cari);	
 						system("cls");
 //						if (index!=-1){
@@ -416,6 +417,7 @@ int main(){
 						}
 						fflush(stdin);
 						gotoXY(26,12);printf("Masukkan Nama Pasien Yang Ingin Dicari = ");gets(caristr[0]);
+						strquick(coba, 0, (n-1));
 						index = strjump(coba, n, caristr);
 						system("cls");
 //						if (index!=-1){
@@ -437,6 +439,7 @@ int main(){
 							tempnomorkamar[i] = dt[i].nomorkamar;
 						}
 						gotoXY(26,12);printf("Masukkan No Kamar Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
+						quick(tempnomorkamar, 0, (n-1));
 						index = jump(tempnomorkamar, n, cari);	
 						system("cls");
 //						if (index!=-1){
