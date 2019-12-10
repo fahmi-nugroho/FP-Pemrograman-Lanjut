@@ -62,17 +62,14 @@ int jump(int arr[], int jumlah, int cari){
 	int indexbawah = 0;
 	int ketemu = 0;
 	int index = -1;
-//	printf("m=%d", m);
 	
 	for (int i=0; i<=(jumlah/m); i++){
 		if (cari==arr[indexbawah]){
-//			printf("\nData Ditemukan Di Index ke-%d", indexbawah);
 			ketemu = 1;
 			index = indexbawah;
 			break;
 		}
 		else if (cari==arr[indexatas]){
-//			printf("\nData Ditemukan Di Index ke-%d", indexatas);
 			ketemu = 1;
 			index = indexatas;
 			break;
@@ -80,7 +77,6 @@ int jump(int arr[], int jumlah, int cari){
 		else if (cari>arr[indexbawah]&&cari<arr[indexatas]){
 			for (int j=indexbawah; j<indexatas; j++){
 				if (cari==arr[j]){
-//					printf("\nData Ditemukan Di Index ke-%d", j);
 					index = j;
 					ketemu = 1;
 				}
@@ -92,9 +88,9 @@ int jump(int arr[], int jumlah, int cari){
 				if (cari==arr[j]){
 					index = j;
 					ketemu = 1;
+					break;
 				}
 			}
-			break;
 		}
 		else{
 			indexbawah = indexatas;
@@ -118,17 +114,14 @@ int strjump(char arr[][100], int jumlah, char data[][100]){
 	int indexbawah = 0;
 	int ketemu = 0;
 	int index = -1;
-//	printf("m=%d", m);
 	
 	for (int i=0; i<=(jumlah/m); i++){
 		if (strcmp(cari[0], arr[indexbawah])==0){
-//			printf("\nData Ditemukan Di Index ke-%d", indexbawah);
 			ketemu = 1;
 			index = indexbawah;
 			break;
 		}
 		else if (strcmp(cari[0], arr[indexatas])==0){
-//			printf("\nData Ditemukan Di Index ke-%d", indexatas);
 			ketemu = 1;
 			index = indexatas;
 			break;
@@ -136,7 +129,6 @@ int strjump(char arr[][100], int jumlah, char data[][100]){
 		else if (strcmp(cari[0], arr[indexbawah])>0&&strcmp(cari[0], arr[indexatas])<0){
 			for (int j=indexbawah; j<indexatas; j++){
 				if (strcmp(cari[0], arr[j])==0){
-//					printf("\nData Ditemukan Di Index ke-%d", j);
 					index = j;
 				}
 			}
@@ -178,33 +170,17 @@ int partition(int arr[], int awal, int akhir){
 			arr[index] = temp;
 			index++;
 		}
-//		printf("\nProses Partisi\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%d ", arr[i]);
-//		}
 	}
 	temp = arr[index];
 	arr[index] = arr[akhir];
 	arr[akhir] = temp;
-//	printf("\nHasil Partisi\n");
-//	for	(int i=0;i<=akhir;i++){
-//		printf("%d ", arr[i]);
-//	}
 	return index;
 }
 
 void quick(int arr[], int awal, int akhir){
 	if (awal < akhir){
 		int index = partition(arr, awal, akhir);
-//		printf("\nProses Quick Kiri\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%d ", arr[i]);
-//		}
 		quick(arr, awal, (index-1));
-//		printf("\nProses Quick Kanan\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%d ", arr[i]);
-//		}
 		quick(arr, (index+1), akhir);
 	}
 }
@@ -222,33 +198,17 @@ int strpartition(char arr[][100], int awal, int akhir){
 			strcpy(arr[index], temp[0]);
 			index++;
 		}
-//		printf("\nProses Partisi\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%s ", arr[i]);
-//		}
 	}
 	strcpy(temp[0], arr[index]); 
 	strcpy(arr[index], arr[akhir]);
 	strcpy(arr[akhir], temp[0]);
-//	printf("\nHasil Partisi\n");
-//	for	(int i=0;i<=akhir;i++){
-//		printf("%s ", arr[i]);
-//	}
 	return index;
 }
 
 void strquick(char arr[][100], int awal, int akhir){
 	if (awal < akhir){
 		int index = strpartition(arr, awal, akhir);
-//		printf("\nProses Quick Kiri\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%s ", arr[i]);
-//		}
 		strquick(arr, awal, (index-1));
-//		printf("\nProses Quick Kanan\n");
-//		for	(int i=0;i<=akhir;i++){
-//			printf("%s ", arr[i]);
-//		}
 		strquick(arr, (index+1), akhir);
 	}
 }
@@ -322,9 +282,16 @@ int main(){
 				break;
 			}
 			case 3:{//search
-				int tempid[n],tempnomorkamar[n], cari, index;
+				int cari, cari2, index;
 				char coba[100][100];
 				char caristr[100][100];
+				int tempid[n];
+				char tempnama[10];
+				char temppenyakit[15];
+				char tempkamar[5];
+				int tempnomorkamar[n];
+				int temptanggal[n];
+				int tempbulan[n];
 				system("cls");
 				border();
 				gotoXY(38,7);printf("List : \n");
@@ -338,8 +305,36 @@ int main(){
 							tempid[i] = dt[i].id;
 						}
 						gotoXY(26,12);printf("Masukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
-//						quick(tempid, 0, (n-1));
-//						urutdata(n, dt, tempid, tempid2);
+						quick(tempid, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (tempid[i]==dt[j].id){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
 						index = jump(tempid, n, cari);	
 						system("cls");
 						break;
@@ -349,8 +344,36 @@ int main(){
 						}
 						fflush(stdin);
 						gotoXY(26,12);printf("Masukkan Nama Pasien Yang Ingin Dicari = ");gets(caristr[0]);
-//						strquick(coba, 0, (n-1));
-//						strurutdata(n, dt, coba, coba2);
+						strquick(coba, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (strcmp(coba[i], dt[j].nama)==0){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
 						index = strjump(coba, n, caristr);
 						system("cls");
 						break;
@@ -358,10 +381,38 @@ int main(){
 						for (int i=0; i<n; i++){
 							tempnomorkamar[i] = dt[i].nomorkamar;
 						}
-						gotoXY(26,12);printf("Masukkan No Kamar Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
-//						quick(tempnomorkamar, 0, (n-1));
-//						urutdata(n, dt, tempnomorkamar, tempnomorkamar2);
-						index = jump(tempnomorkamar, n, cari);	
+						gotoXY(26,12);printf("Masukkan No Kamar Yang Ingin Dicari = ");scanf("%d",& cari2);fflush(stdin);
+						quick(tempnomorkamar, 0, (n-1));
+						for (int i=0; i<(n-1); i++){
+							for (int j=0; j<n; j++){
+								if (tempnomorkamar[i]==dt[j].nomorkamar){
+									tempid[i] = dt[i].id;
+									strcpy(tempnama, dt[i].nama);
+									strcpy(temppenyakit, dt[i].penyakit);
+									strcpy(tempkamar, dt[i].kamar);
+									tempnomorkamar[i] = dt[i].nomorkamar;
+									temptanggal[i] = dt[i].tl.tanggal;
+									tempbulan[i] = dt[i].tl.bulan;
+									
+									dt[i].id = dt[j].id;
+									strcpy(dt[i].nama, dt[j].nama);
+									strcpy(dt[i].penyakit, dt[j].penyakit);
+									strcpy(dt[i].kamar, dt[j].kamar);
+									dt[i].nomorkamar = dt[j].nomorkamar;
+									dt[i].tl.tanggal = dt[j].tl.tanggal;
+									dt[i].tl.bulan = dt[j].tl.bulan;
+								
+									dt[j].id = tempid[i];
+									strcpy(dt[j].nama, tempnama);
+									strcpy(dt[j].penyakit, temppenyakit);
+									strcpy(dt[j].kamar, tempkamar);
+									dt[j].nomorkamar = tempnomorkamar[i];
+									dt[j].tl.tanggal = temptanggal[i];
+									dt[j].tl.bulan = tempbulan[i];
+								}
+							}
+						}
+						index = jump(tempnomorkamar, n, cari2);	
 						system("cls");
 						break;
 				}
@@ -416,8 +467,8 @@ int main(){
 			}
 			case 5:{//sorting
 				system("cls");
-				char temp[100][100], temp2[100][100];
-				int tempi[n], tempi2[n];
+				char temp[100][100];
+				int tempi[n];
 				int tempid[n];
 				char tempnama[10];
 				char temppenyakit[15];
@@ -440,13 +491,7 @@ int main(){
 						for (int i=0; i<=n; i++){
 							tempi[i] = dt[i].id;
 						}
-						for	(int i=0;i<n;i++){
-							printf("%d ", tempi[i]);
-						}
-						printf("\n%d", n);
-						getch();
 						quick(tempi, 0, (n-1));
-//						urutdata(n, dt, tempi, tempi2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempi[i]==dt[j].id){
@@ -489,7 +534,6 @@ int main(){
 							strcpy(temp[i], dt[i].nama);
 						}
 						strquick(temp, 0, (n-1));
-//						strurutdata(n, dt, temp, temp2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (strcmp(temp[i], dt[j].nama)==0){
@@ -560,7 +604,6 @@ int main(){
 								}
 							}
 						}
-//						strurutdata(n, dt, temp, temp2);
 						getch();
 						system("cls");
 						border();
@@ -573,7 +616,6 @@ int main(){
 							strcpy(temp[i], dt[i].kamar);
 						}
 						strquick(temp, 0, (n-1));
-//						strurutdata(n, dt, temp, temp2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (strcmp(temp[i], dt[j].kamar)==0){
@@ -615,7 +657,6 @@ int main(){
 							tempnomorkamar[i] = dt[i].nomorkamar;
 						}
 						quick(tempnomorkamar, 0, (n-1));
-//						urutdata(n, dt, tempi, tempi2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempnomorkamar[i]==dt[j].nomorkamar){
@@ -658,7 +699,6 @@ int main(){
 							temptanggal[i] = dt[i].tl.tanggal;
 						}
 						quick(temptanggal, 0, (n-1));
-//						urutdata(n, dt, tempi, tempi2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (temptanggal[i]==dt[j].tl.tanggal){
@@ -701,7 +741,6 @@ int main(){
 							tempbulan[i] = dt[i].tl.bulan;
 						}
 						quick(tempbulan, 0, (n-1));
-//						urutdata(n, dt, tempi, tempi2);
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempbulan[i]==dt[j].tl.bulan){
