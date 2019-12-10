@@ -63,7 +63,7 @@ int jump(int arr[], int jumlah, int cari){
 	int ketemu = 0;
 	int index = -1;
 	
-	for (int i=0; i<=(jumlah/m); i++){
+	for (int i=0; i<(jumlah/m); i++){
 		if (cari==arr[indexbawah]){
 			ketemu = 1;
 			index = indexbawah;
