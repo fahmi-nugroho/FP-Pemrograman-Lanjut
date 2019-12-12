@@ -22,40 +22,9 @@ struct data{
 };
 typedef struct data data;
 
-//bool compareTwoStudents(data a, data b) 
-//{ 
-//    // If total marks are not same then 
-//    // returns true for higher total 
-//    if (a.total != b.total ) 
-//        return a.total > b.total; 
-//  
-//    // If marks in Maths are not same then 
-//    // returns true for higher marks 
-//    if (a.math != b.math) 
-//            return a.math > b.math; 
-//  
-//    return (a.phy > b.phy); 
-//} 
-//void computeRanks(data a[], int n) 
-//{ 
-//    // To calculate total marks for all Students 
-//    for (int i=0; i<n; i++) 
-//        a[i].total = a[i].math + a[i].phy + a[i].che; 
-//  
-//    // Sort structure array using user defined 
-//    // function compareTwoStudents() 
-//    sort(a, a+5, compareTwoStudents); 
-//  
-//    // Assigning ranks after sorting 
-//    for (int i=0; i<n; i++) 
-//        a[i].rank = i+1; 
-//} 
 void quickSort (data dt[], int lo, int hi){ 
-//  lo adalah index bawah, hi adalah index atas 
-//  dari bagian array yang akan di urutkan 
 	int i=lo, j=hi, h; 
  
-//  pembagian 
     do{ 
         while (dt[i].id<dt[lo].id) i++; 
         while (dt[j].id>dt[lo].id) j--; 
