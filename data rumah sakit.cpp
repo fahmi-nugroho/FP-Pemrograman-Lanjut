@@ -154,6 +154,7 @@ int main(){
 	srand(time(0));
 	data dt[100];
 	int i,j,loop=1,menu,menu1,orang=0,n=0,dat=0,sort,ganti;
+	char cganti[10],ccari[10];
 	while(loop==1){
 		printf("Draft Menu : \n");
 		printf("1. Input data\n");
@@ -213,14 +214,10 @@ int main(){
 				}
 				break;
 			case 3:{//search
-				int temp[n], cari, index;
-				system("cls");
-				for (int i=0; i<=n; i++){
-					temp[i] = dt[i].id;
-				}
-				
-				printf("Masukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
-				index = jump(temp, (n+1), cari);
+				int tempid[n], cari, index;
+				char tempnama[10];
+				printf("\nMasukkan ID Pasien Yang Ingin Dicari = ");scanf("%d",& cari);fflush(stdin);
+				index = jump(tempid, (n+1), cari);	
 				system("cls");
 				if (index!=-1){
 					printf("Data ke - %d",index+1);
@@ -241,30 +238,52 @@ int main(){
 				int ketemu=0;
 				system("cls");
 				fflush(stdin);
-				printf("\nMasukkan NomorID yang ingin anda ubah : ");
-				scanf("%d",&ganti);
-				fflush(stdin);
-				for(i=0;i<n;i++){
-					if(dt[i].id==ganti){
-						system("cls");
-						printf("Masukkan data baru\n");
-						printf("Nama Pasien\t\t: ");
-						gets(dt[i].nama);
-						printf("Jenis Penyakit\t\t: ");
-						gets(dt[i].penyakit);
-						printf("Jenis Kamar\t\t: ");
-						gets(dt[i].kamar);
-						printf("Nomor Kamar\t\t: ");
-						scanf("%d",& dt[i].nomorkamar);
+				printf("List : \n");
+				printf("1. ID\n");
+				printf("2. Nama\n");
+				printf("Pilih : ");scanf("%d",&menu1);fflush(stdin);
+				switch(menu1){
+					case 1:
+						printf("\nMasukkan NomorID yang ingin anda ubah : ");
+						scanf("%d",&ganti);
 						fflush(stdin);
-						printf("Tanggal masuk\t\t: ");
-						scanf("%d",&dt[i].tl.tanggal);
-						printf("Bulan masuk\t\t: ");
-						scanf("%d",&dt[i].tl.bulan);
-						ketemu = 1;
-					}
+						for(i=0;i<n;i++){
+							if(dt[i].id==ganti){
+								ketemu = 1;
+								j=i;
+							}
+						}
+						break;
+					case 2:
+						printf("\nMasukkan Nama yang ingin anda ubah : ");
+						gets(cganti);
+						fflush(stdin);
+						for(i=0;i<n;i++){
+							if(strcmp(dt[i].nama, cganti)==0){
+								ketemu = 1;
+								j=i;
+							}
+						}
+						break;
 				}
-				if (ketemu==0){
+				if(ketemu==1){
+//					system("cls");
+					printf("Masukkan data baru\n");
+					printf("Nama Pasien\t\t: ");
+					gets(dt[j].nama);
+					printf("Jenis Penyakit\t\t: ");
+					gets(dt[j].penyakit);
+					printf("Jenis Kamar\t\t: ");
+					gets(dt[j].kamar);
+					printf("Nomor Kamar\t\t: ");
+					scanf("%d",& dt[j].nomorkamar);
+					fflush(stdin);
+					printf("Tanggal masuk\t\t: ");
+					scanf("%d",&dt[j].tl.tanggal);
+					printf("Bulan masuk\t\t: ");
+					scanf("%d",&dt[j].tl.bulan);
+				}
+				else if (ketemu==0){
 					system("cls");
 					printf("ID Yang Dimasukkan Tidak Ditemukan !!!");
 					getch();
@@ -467,7 +486,7 @@ int main(){
 						for (int i=0; i<=n; i++){
 							tempnomorkamar[i] = dt[i].nomorkamar;
 						}
-						quick(tempnomorkamar, 0, n);
+						quick(tempnomorkamar, 0, (n-1));
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempnomorkamar[i]==dt[j].nomorkamar){
@@ -498,6 +517,7 @@ int main(){
 								}
 							}
 						}
+						getch();
 						system("cls");
 						printf("Data Berhasil Diurutkan !!!");
 						getch();
@@ -508,7 +528,7 @@ int main(){
 						for (int i=0; i<=n; i++){
 							temptanggal[i] = dt[i].tl.tanggal;
 						}
-						quick(temptanggal, 0, n);
+						quick(temptanggal, 0, (n-1));
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (temptanggal[i]==dt[j].tl.tanggal){
@@ -538,6 +558,7 @@ int main(){
 								}
 							}
 						}
+						getch();
 						system("cls");
 						printf("Data Berhasil Diurutkan !!!");
 						getch();
@@ -548,7 +569,7 @@ int main(){
 						for (int i=0; i<=n; i++){
 							tempbulan[i] = dt[i].tl.bulan;
 						}
-						quick(tempbulan, 0, n);
+						quick(tempbulan, 0, (n-1));
 						for (int i=0; i<(n-1); i++){
 							for (int j=0; j<n; j++){
 								if (tempbulan[i]==dt[j].tl.bulan){
@@ -578,6 +599,7 @@ int main(){
 								}
 							}
 						}
+						getch();						
 						system("cls");
 						printf("Data Berhasil Diurutkan !!!");
 						getch();
@@ -591,6 +613,5 @@ int main(){
 				loop=0;
 				break;
 		}
-	}
-	
+	}	
 }
